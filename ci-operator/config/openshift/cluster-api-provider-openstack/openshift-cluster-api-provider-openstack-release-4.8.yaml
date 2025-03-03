@@ -62,6 +62,8 @@ tests:
   optional: true
   steps:
     cluster_profile: openstack-vexxhost
+    env:
+      ETCD_ON_LOCAL_DISK: "false"
     workflow: openshift-upgrade-openstack
 - as: e2e-openstack
   steps:

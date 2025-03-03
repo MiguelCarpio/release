@@ -32,6 +32,7 @@ tests:
   steps:
     cluster_profile: openstack-vexxhost
     env:
+      ETCD_ON_LOCAL_DISK: "false"
       TEST_TYPE: upgrade-conformance
     workflow: openshift-upgrade-openstack
 zz_generated_metadata:

@@ -24,6 +24,15 @@ function wait_for_machineconfig_done() {
   oc wait clusteroperators --timeout=30m --all --for=condition=Progressing=false
 }
 
+oc_version=$(oc version -o json | jq -r '.openshiftVersion' | cut -d '.' -f1,2)
+
+# Deploying on OpenStack with rootVolume and etcd on local disk 
+# is not supported on OpenShift versions lower than 4.13
+if [[ $(jq -n "$oc_version < 4.13") == "true" ]]; then
+  info "This procedure is not supported on OpenShift versions lower than 4.13... Skipping."
+  exit 0
+fi
+
 if [[ "${ETCD_ON_LOCAL_DISK}" == "true" ]] && [[ "${USE_RAMFS}" == "true" ]]; then
     info "ERROR: ETCD_ON_LOCAL_DISK is set to true and USE_RAMFS is set to true, the configuration is conflicting"
     exit 1

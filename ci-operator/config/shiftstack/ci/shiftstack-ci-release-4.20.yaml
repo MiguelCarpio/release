@@ -49,7 +49,6 @@ tests:
     cluster_profile: openstack-vexxhost
     env:
       FIPS_ENABLED: "true"
-      TEST_SUITE: experimental/reliability/minimal
     pre:
     - chain: ipi-openstack-pre
     - ref: fips-check
@@ -58,11 +57,15 @@ tests:
   minimum_interval: 144h
   steps:
     cluster_profile: openstack-vh-bm-rhos
+    env:
+      TEST_SUITE: openshift/conformance/parallel
     workflow: openshift-e2e-openstack-proxy
 - as: e2e-openstack-externallb
   minimum_interval: 168h
   steps:
     cluster_profile: openstack-vh-bm-rhos
+    env:
+      TEST_SUITE: openshift/conformance/parallel
     workflow: openshift-e2e-openstack-external-lb
 - as: e2e-openstack-nfv-intel
   minimum_interval: 144h
@@ -124,7 +127,6 @@ tests:
         group\|The OpenStack platform creates Control plane nodes in a server group
       TEST_SKIPS: Services Secondary IP Family \[LinuxOnly\] should function for service
         endpoints using hostNetwork
-      TEST_SUITE: experimental/reliability/minimal
     workflow: openshift-e2e-openstack-upi
 - as: e2e-openstack-ovn-password
   minimum_interval: 48h
@@ -159,13 +161,14 @@ tests:
     cluster_profile: openstack-vh-bm-rhos
     env:
       CONFIG_TYPE: singlestackv6
+      TEST_SUITE: openshift/conformance/parallel
     workflow: openshift-e2e-openstack-singlestackv6
 - as: e2e-openstack-ccpmso
   minimum_interval: 240h
   steps:
     cluster_profile: openstack-vexxhost
     env:
-      TEST_SUITE: experimental/reliability/minimal
+      TEST_SUITE: openshift/conformance/parallel
     test:
     - as: openstack-test-cpms
       commands: |
@@ -189,7 +192,7 @@ tests:
     cluster_profile: openstack-vh-bm-rhos
     env:
       ETCD_ON_LOCAL_DISK: "true"
-      TEST_SUITE: experimental/reliability/minimal
+      TEST_SUITE: openshift/conformance/parallel
       USE_RAMFS: "false"
     test:
     - as: openstack-test-cpms
